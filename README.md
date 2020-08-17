@@ -2,8 +2,12 @@
 ----
 # Table of Contents
 ## Intro
-php can be embbeded into HTML file, just place any php code between ```php
-<?php your php code goes here ?>```
+php can be embbeded into HTML file, just place any php code between 
+```php
+<?php 
+your php code goes here 
+?>
+```
 ## Variables
 ## Data Types
 ## Inline PHP
