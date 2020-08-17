@@ -1,6 +1,6 @@
 # PHP_Tut
 ----
-#Table of Contents
+# Table of Contents
 ## Intro
 ## Variables
 ## Data Types
