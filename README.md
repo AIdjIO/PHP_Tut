@@ -2,6 +2,7 @@
 ----
 # Table of Contents
 ## Intro
+php can be embbeded into HTML file, just place any php code between ```<?php ?>```
 ## Variables
 ## Data Types
 ## Inline PHP
