@@ -2,7 +2,7 @@
 ----
 # Table of Contents
 ## Intro
-php can be embbeded into HTML file, just place any php code between 
+php can be embbeded into HTML file, just place any php code between tags ```<?php ?>``` like so:
 ```php
 <?php 
 your php code goes here 
