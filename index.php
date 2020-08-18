@@ -8,5 +8,8 @@
 <title>PHP Tutorial</title>
 </head>
 <body>
+  <p>Name: <?php echo $f_name . ' ' . $l_name; ?></p>
+  
+  ?>
 </body>
 </html>
