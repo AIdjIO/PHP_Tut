@@ -1,137 +1,113 @@
 <?php 
-$f_name="Ai"; //variable with string datatype in double quotes (single quotes can be used too).
-$l_name='Dj';
-$age=44; //integer
-$height=1.91; //float
-$can_vote=true; //boolean
-$address=array('street' => '1 Hacker Way', 'city'=> 'Palo Alto');
-$state = NULL; //variable has no value;
-define('PI',3.14159265);
+require('db_connect.php');
+$query_students='SELECT * FROM students  WHERE date(date_entered)=date(now()) ORDER BY date_entered';
+$student_pdo_statment= $db->prepare($query_students);
+$student_pdo_statment->execute();
+$students = $student_pdo_statment->fetchAll();
+$student_pdo_statment->closeCursor();
 ?>
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>PHP Tutorial</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" type="text/css" href="main.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.21/af-2.3.5/b-1.6.3/b-colvis-1.6.3/b-flash-1.6.3/b-html5-1.6.3/b-print-1.6.3/cr-1.5.2/fc-3.3.1/fh-3.1.7/kt-2.5.2/r-2.2.5/rg-1.1.2/rr-1.2.7/sc-2.0.2/sp-1.1.1/sl-1.3.1/datatables.min.css"/> -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.21/af-2.3.5/b-1.6.3/b-colvis-1.6.3/b-flash-1.6.3/b-html5-1.6.3/b-print-1.6.3/cr-1.5.2/fc-3.3.1/fh-3.1.7/kt-2.5.2/r-2.2.5/rg-1.1.2/rr-1.2.7/sc-2.0.2/sp-1.1.1/sl-1.3.1/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+    <title>Read</title>
 </head>
 <body>
-  <p>Name: <?php echo $f_name . ' ' . $l_name; ?></p>
-  <form action="index.php" method="get"><br>
-    <label>Your State : </label>
-    <input type="text" name="state"/><br>
-    <label>Number 1 : </label>
-    <input type="text" name="num_1"/><br>
-    <label>Number 2 : </label>
-    <input type="text" name="num_2"/><br>
-    <input type="submit" value="submit"/>
-  </form>
-  <?php
-  if(isset($_GET) && array_key_exists('state', $_GET)){
-    $state = $_GET['state'];
-    if (isset($state) && !empty($state)){
-      echo 'You live in ' . $state . '<br>';
-      echo "$f_name lives in $state<br>";
-    }
-    if (count($_GET) >= 3){
-      $num_1 = $_GET['num_1'];
-      $num_2 = $_GET['num_2'];
+    <h3>Student List</h3>
 
-      echo "<h2>Math operator</h2>";
-      echo "$num_1 + $num_2 =  " .($num_1 + $num_2).'<br>';
-      echo "$num_1 - $num_2 =  " .($num_1 - $num_2).'<br>';
-      echo "$num_1 * $num_2 =  " .($num_1 * $num_2).'<br>';
-      echo "$num_1 / $num_2 =  " .($num_1 / $num_2).'<br>';
-      echo "$num_1 % $num_2 =  " .($num_1 % $num_2).'<br>';
-      echo "$num_1 / $num_2 =  " .(intdiv($num_1 , $num_2)).'<br>';
-
-      echo "<h2>Increment / Decrement</h2>";
-      echo "Increment $num_1 =  " .($num_1++).'<br>';
-      echo "Decrement $num_1 =  " .($num_1--).'<br>';
-
-      echo "<h2>Math functions</h2>";
-      echo "abs(-5) = " . abs(-5) .'<br>';
-      echo "ceil(4.45) = " . ceil(4.45) . "<br>";
-      echo "floor(4.45) = " . floor(4.45) . "<br>";
-      echo "round(4.45) = " . round(4.45) . "<br>";
-      echo "max(4,5) = " . max(4,5) . "<br>";
-      echo "min(4,5) = " . min(4,5) . "<br>";
-      echo "pow(4,2) = " . pow(4,2) . "<br>";
-      echo "sqrt(16) = " . sqrt(16)."<br>";
-      echo "exp(1) = " . exp(1) . "<br>";
-      echo"log(e) = " . log(exp(1)) . "<br>";
-      echo "log10(10) = " . log10(1) . "<br>";
-      echo "PI= " . pi() . "<br>";
-      echo "hypot(10,10) = " . hypot(10,10) . "<br>"; # hypothenuse
-      echo "deg2rad(90) = " . deg2rad(90) . "<br>";
-      echo "rad2deg(1.57) = " . rad2deg(1.57) . "<br>";
-      echo "mt_rand(1,50) = " . mt_rand(1,50) . "<br>"; # fast random number
-      echo "rand(1,50) = " . rand(1,50) . "<br>"; # original random num
-      echo "Max Random = " . mt_getrandmax() . "<br>"; # max random num
-      echo "is_finite(10) = " . is_finite(0) . "<br>";
-      echo "is_infinite(log(10)) = " . is_infinite(log(0)) . "<br>";
-      echo "is_numeric(\"10\") = " . is_numeric("10") . "<br>";
-      echo "sin(0) = " . sin(0) . "<br>"; # sin, cos, tan, asin, atan, asinh, acosh, atanh, atan2
-      echo "<h2>number format</h2>";
-      echo number_format(12345.6789, 2) . "<br>";
-
-      echo "<h2>Conditionals</h2>";
-      echo "<li>IF Statment</li>";
-      $num_oranges = 4; 
-      $num_bananas = 36;
-      if(($num_oranges > 25) && ($num_bananas > 30)){
-        echo "35% Discount<br>";
-      }
-      elseif (($num_oranges>30) || ($num_bananas>35)){
-        echo "15% Discount<br>";
-      }
-      elseif (!($num_oranges <5) || (!($nun_bananas < 5))){
-        echo "5% Discount<br>";
-      }
-      else {
-        echo "No Discount<br>";
-      }
-      echo "<li>SWITCH Statement</li>";
-    }
-    $request = "Coke";
-    switch($request){
-      case "Coke":
-        echo "Here is your Coke<br>";
-      break;
-      case "Pepsi":
-        echo "Here is your Pepsi<br>";
-      break;
-      default:
-        echo "Here is your Water<br>";
-      break;
-    }
-
-    $age = 12;
-    switch(true){
-      case ($age<5):
-        echo "stay home<br>";
-      break;
-      case ($age == 5):
-        echo "Go to kindergarten<br>";
-      break;
-      case in_array($age, range(6,17)):
-        $grade = $age - 5;
-        echo "Go to Grade $grade<br>";
-      break;
-      default:
-      echo "Go to College<br>";
-      break;
-      }
-
-      echo "<li>Ternary operator</li>";
-      $can_vote = ($age>=18)? "Can Vote" : "Can't Vote";
-      echo "Vote? : $can_vote<br>";
-
-      echo "<li>Identity Operator</li>";
-
-
-
-
-  }
-  ?>
+<table id="myTable" class="display nowrap dataTable dtr-inline collapsed" style="width: 100%;" role="grid" aria-describedby="example_info">
+      <thead>
+        <th><strong>ID:</strong></th>
+        <th><strong>Name:</strong></th>
+        <th><strong>Email:</strong></th>
+        <th><strong>Street:</strong></th>
+        <th><strong>City:</strong></th>
+        <th><strong>State:</strong></th>
+        <th><strong>Zip:</strong></th>
+        <th><strong>Phone:</strong></th>
+        <th><strong>Birthday:</strong></th>
+        <th><strong>Sex:</strong></th>
+        <th><strong>Entered:</strong></th>
+        <th><strong>Lunch:</strong></th>
+      </tr>
+</thead>
+      <!-- Get an array from the DB query and cycle
+      through each row of data -->
+      <tbody>
+        <?php foreach($students as $student): ?>
+        <tr>
+            <td><?php echo $student['student_id']; ?></td>
+            <td><?php echo $student['first_name'] . ' ' . $student['last_name']; ?></td>
+            <td><?php echo $student['email']; ?></td>
+            <td><?php echo $student['street']; ?></td>
+            <td><?php echo $student['city']; ?></td>
+            <td><?php echo $student['state']; ?></td>
+            <td><?php echo $student['zip']; ?></td>
+            <td><?php echo $student['phone']; ?></td>
+            <td><?php echo $student['birth_date']; ?></td>
+            <td><?php echo $student['sex']; ?></td>
+            <td><?php echo $student['date_entered']; ?></td>
+            <td><?php echo $student['lunch_cost']; ?></td>
+        </tr>
+        <?php endforeach; ?>
+        <tbody>
+    </table>
+  
+    <h3>Insert Student</h3>
+    <form action="Create_student.php" method="post" id="add_student_form">
+      <label>First Name : </label>
+      <input type="text" name="first_name"><br>
+      <label>Last Name : </label>
+      <input type="text" name="last_name"><br>
+      <label>Email : </label>
+      <input type="text" name="email"><br>
+      <label>Street : </label>
+      <input type="text" name="street"><br>
+      <label>City : </label>
+      <input type="text" name="city"><br>
+      <label>State : </label>
+      <input type="text" name="state"><br>
+      <label>Zip Code : </label>
+      <input type="text" name="zip"><br>
+      <label>Phone : </label>
+      <input type="text" name="phone"><br>
+      <label>Birth Date : </label>
+      <input type="text" name="birth_date"><br>
+      <label>Sex : </label>
+      <input type="text" name="sex"><br>
+      <label>Lunch Cost : </label>
+      <input type="text" name="lunch"><br>
+      <input type="submit" value="Add Student"><br>
+    </form>
+    <script>
+	$(document).ready( function () {
+			$('#myTable')
+				.addClass( 'nowrap' )
+				.dataTable( {
+					responsive: true,
+					columnDefs: [
+						{ targets: [-1, -3], className: 'dt-body-right' }
+          ],
+          dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+				} );
+		} );
+      </script>
 </body>
 </html>
