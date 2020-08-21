@@ -104,7 +104,7 @@ $student_pdo_statment->closeCursor();
           ],
           dom: 'Bfrtip',
         buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
+            'copy', 'csv', 'excel', 'pdf', 'print',
         ]
 				} );
 		} );
